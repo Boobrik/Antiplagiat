@@ -69,9 +69,9 @@ class Visitor(ast.NodeVisitor):
             self.list.add(node.id)
 
 
-class Normalize(ast.NodeTransformer):
-    """
-    def visit_Name(self, node):
+class Normalize(ast.NodeTransformer):   # troubles
+    """ 
+        def visit_Name(self, node):
         if True:    # change if
             return ast.Subscript(
                 value=ast.Name(id='y_new', ctx=node.ctx),
@@ -80,10 +80,14 @@ class Normalize(ast.NodeTransformer):
             )
 
     def visit_FunctionDef(self, node):
-        a = ast.get_docstring(node)
+        print(dir(node.args))
+        for i in node.args.args:
+            if i.annotation is not None:
+                i.annotation = None
         return ast.Subscript(
 
         )
+
     """
 
 
@@ -159,7 +163,7 @@ def run():
         except SyntaxError:
             pass
 
-        diff = damerau_levenshtein_distance(a.orig, a.plag) # may be levenstein_distance
+        diff = damerau_levenshtein_distance(a.orig, a.plag)    # may be levenstein_distance
         mlen = len(max(a.orig, a.plag))
         if mlen == 0:
             result = 1.0
